@@ -5,6 +5,10 @@ const cors = require('cors')
 const helmet = require('helmet')
 const logger = require('./logger')
 const { NODE_ENV } = require('./config')
+const usersRouter = require('./users/users-router.js')
+const postsRouter = require('./posts/posts-router.js')
+const connectionsRouter = require('./connections/connections-router.js')
+const bookmarksRouter = require('./bookmarks/bookmarks-router.js')
 
 const app = express()
 
@@ -27,6 +31,12 @@ app.use(cors())
     }
     next()
 })*/
+
+app.use('/api/users',usersRouter)
+app.use('/api/posts',postsRouter)
+app.use('/api/connections',connectionsRouter)
+app.use('/api/bookmarks',bookmarksRouter)
+
 
 app.get('/',(req,res)=>{
     res.send('Hello, world!')
