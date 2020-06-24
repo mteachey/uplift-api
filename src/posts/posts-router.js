@@ -23,6 +23,7 @@ postsRouter
     .get((req, res, next)=>{
        
         const {userid}=req.query;
+        console.log(userid)
 
         if(!userid){
             PostsService.getAllPosts(
