@@ -21,7 +21,7 @@ function makeBookmarksArray() {
       {
         "id":4,
         "user_id":2,
-        "post_id":5,
+        "post_id":4,
         "content":""
       }
     ]

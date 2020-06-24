@@ -5,7 +5,7 @@ require('dotenv').config()
 const { makeUsersArray } = require('./users.fixtures.js');
 const { makeConnectionsArray} = require('./connections.fixtures.js');
 
-describe.only(`Uplift endpoints`,()=>{
+describe(`Uplift endpoints`,()=>{
     let db 
 
     before('make knex instance',()=>{
@@ -18,9 +18,9 @@ describe.only(`Uplift endpoints`,()=>{
 
     after('disconnect from db',()=>db.destroy())
 
-    before('clean the table', () => db.raw('TRUNCATE uplift_connections, uplift_bookmarks, uplift_connections, uplift_users RESTART IDENTITY CASCADE'))
+    before('clean the table', () => db.raw('TRUNCATE uplift_connections, uplift_bookmarks, uplift_posts, uplift_users RESTART IDENTITY CASCADE'))
 
-    afterEach('cleanup',() => db.raw('TRUNCATE uplift_connections, uplift_bookmarks, uplift_connections, uplift_users RESTART IDENTITY CASCADE'))
+    afterEach('cleanup',() => db.raw('TRUNCATE uplift_connections, uplift_bookmarks, uplift_posts, uplift_users RESTART IDENTITY CASCADE'))
 
     describe(`GET/api/connections`,()=>{
         context(`Given no connections`,()=>{

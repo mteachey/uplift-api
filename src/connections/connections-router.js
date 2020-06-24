@@ -58,7 +58,7 @@ connectionsRouter
                 })
             }    
         })
-        .then(
+        
         UsersService.getUserByUserId(
             req.app.get('db'),
             followee_id   
@@ -69,8 +69,8 @@ connectionsRouter
                     error: {message: `User with ${followee_id} doesn't exist` }
                 })
             }    
-        }))
-        .then(
+        })
+        
 
         ConnectionsService.insertNewConnection(
             req.app.get('db'),
@@ -81,8 +81,7 @@ connectionsRouter
                 .status(201)
                 .location(path.posix.join(req.originalUrl + `/${connection.id}`))
                 .json(connection)
-        }))
-        .catch(next)
+        })
     })
 connectionsRouter
     .route(`/:connection_id`)
@@ -91,19 +90,19 @@ connectionsRouter
             req.app.get('db'),
             req.params.connection_id
         )
-        .then(connection=>{
-            if(!connection){
+        .then(connect=>{
+            if(!connect){
                 return res.status(404).json({
                     error: {message: `Connection doesn't exist` }
                 })
             }
-            res.connection = connection
+            res.connect = connect
             next()
         })
         .catch(next)       
     })
     .get((req, res, next)=>{
-        res.json(connection)
+        res.json(res.connect)
     })
     .delete((req, res, next)=>{
         ConnectionsService.deleteConnection(
@@ -113,6 +112,7 @@ connectionsRouter
         .then(()=>{
             res.status(204).end()
         })
+        .catch(next)
     })
 
 module.exports = connectionsRouter
