@@ -22,10 +22,9 @@ postsRouter
     .route('/')
     .get((req, res, next)=>{
        
-        const {userid}=req.query;
-        console.log(userid)
+        const {userid, userconnection}=req.query;
 
-        if(!userid){
+        if(!userid && !userconnection){
             PostsService.getAllPosts(
                 req.app.get('db'),
             )
@@ -38,6 +37,21 @@ postsRouter
             PostsService.getPostsByUserId(
                 req.app.get('db'),
                 userid
+            )
+            .then(posts=>{
+                if(posts.length===0){
+                    return res.status(404).json({
+                        error: {message: `Posts with that username or id do not exsit`}
+                    })
+                }
+                res.json(posts.map(serializedPost)) 
+            })
+            .catch(next)
+        }
+        if(userconnection){
+            PostsService.getConnectionPosts(
+                req.app.get('db'),
+                userconnection
             )
             .then(posts=>{
                 if(posts.length===0){

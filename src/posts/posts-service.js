@@ -10,16 +10,15 @@ const PostsService = {
         return knex
         .select('*')
         .from('uplift_posts')
-        .where('user_id',userId)
+        .where('uplift_posts.user_id',userId)
     },
     getConnectionPosts(knex, userconnection){
-        console.log(userconnection)
         return knex
-        .select('*')
         .from('uplift_posts')
-        .join('uplift_connections','uplift_posts.user_id','uplift_connections.followee_id')
-        .where('uplift_posts.user_id',userconnection)
-
+        .select('*')
+        .join('uplift_users','uplift_posts.user_id', 'uplift_users.id')
+        .join('uplift_connections','uplift_connections.followee_id', 'uplift_users.id')
+        .where('uplift_connections.user_id',1)
     },
     insertNewPost(knex, newPost){
         return knex
