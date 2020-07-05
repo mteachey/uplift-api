@@ -7,7 +7,7 @@ const postsRouter = express.Router()
 const jsonParser = express.json()
 
 const serializedPost = post =>({
-    id:post.id,
+    post_id:post.post_id,
     user_id:post.user_id,
     title:xss(post.title),
     link:xss(post.link),
@@ -15,6 +15,7 @@ const serializedPost = post =>({
     by:xss(post.by),
     content:xss(post.content),
     post_type:post.post_type,
+    username:xss(post.username),
     date_created:post.date_created
 })
 
@@ -44,6 +45,7 @@ postsRouter
                         error: {message: `Posts with that username or id do not exsit`}
                     })
                 }
+                console.log(posts);
                 res.json(posts.map(serializedPost)) 
             })
             .catch(next)
@@ -59,7 +61,7 @@ postsRouter
                         error: {message: `Posts with that username or id do not exsit`}
                     })
                 }
-                res.json(posts.map(serializedPost)) 
+                res.json(posts) 
             })
             .catch(next)
         }
@@ -70,7 +72,6 @@ postsRouter
 
         const validPostTypes = [`reflection`, `music`,`event`,`book`,`podcast`]
 
-       
             if(!user_id){
                 return res.status(400).json({
                     error: { message : `Missing user_id in request body` }
@@ -119,11 +120,13 @@ postsRouter
                 newPost
             )
             .then(post=>{
+                console.log(post)
                 res
                     .status(201)
                     .location(path.posix.join(req.originalUrl + `/${post.id}`))
                     .json(serializedPost(post))
             })
+            .catch(next) 
     })
 postsRouter
     .route(`/:post_id`)

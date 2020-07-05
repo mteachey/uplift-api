@@ -1,24 +1,28 @@
 const PostsService = {
     getAllPosts(knex){
         return knex
-        .select('*')
         .from('uplift_posts')
+        .select('uplift_posts.id as post_id','post_type', 'content','title','by','link','uplift_posts.date_created','user_id', 'uplift_users.username')
+        .join('uplift_users','uplift_posts.user_id', 'uplift_users.id')
+        
     },
 
     getPostsByUserId(knex, userId){
         console.log(userId)
         return knex
-        .select('*')
         .from('uplift_posts')
+        .select('uplift_posts.id as post_id','post_type', 'content','title','by','link','uplift_posts.date_created','user_id', 'uplift_users.username')
+        .join('uplift_users','uplift_posts.user_id', 'uplift_users.id')
         .where('uplift_posts.user_id',userId)
     },
     getConnectionPosts(knex, userconnection){
         return knex
         .from('uplift_posts')
-        .select('*')
+        .select('uplift_posts.id as post_id','post_type', 'followee_id as user_id', 'content','title','by','link','start_date','uplift_posts.date_created', 'username')
         .join('uplift_users','uplift_posts.user_id', 'uplift_users.id')
         .join('uplift_connections','uplift_connections.followee_id', 'uplift_users.id')
-        .where('uplift_connections.user_id',1)
+        .where('uplift_connections.user_id',userconnection)
+       
     },
     insertNewPost(knex, newPost){
         return knex
