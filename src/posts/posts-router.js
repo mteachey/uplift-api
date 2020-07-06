@@ -23,9 +23,9 @@ postsRouter
     .route('/')
     .get((req, res, next)=>{
        
-        const {userid, userconnection}=req.query;
+        const {userid, userconnection, userbookmark}=req.query;
 
-        if(!userid && !userconnection){
+        if(!userid && !userconnection && !userbookmark){
             PostsService.getAllPosts(
                 req.app.get('db'),
             )
@@ -58,7 +58,22 @@ postsRouter
             .then(posts=>{
                 if(posts.length===0){
                     return res.status(404).json({
-                        error: {message: `Posts with that username or id do not exsit`}
+                        error: {message: `Posts with that username or id do not exist`}
+                    })
+                }
+                res.json(posts) 
+            })
+            .catch(next)
+        }
+        if(userbookmark){
+            PostsService.getBookmarkPosts(
+                req.app.get('db'),
+                userbookmark
+            )
+            .then(posts=>{
+                if(posts.length===0){
+                    return res.status(404).json({
+                        error: {message: `That username or id does not exist`}
                     })
                 }
                 res.json(posts) 
