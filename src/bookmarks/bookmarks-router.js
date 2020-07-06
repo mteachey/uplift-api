@@ -115,5 +115,27 @@ bookmarksRouter
             res.status(204).end()
         })
     })
+    .patch(jsonParser, (req, res, next)=>{
+        const { content } = req.body
+        const bookmarkToUpdate = { content }
+
+        if(!content){
+            return res.status(400).json({
+                error: {
+                  message: `Request body must contain content`
+                }
+            })
+        }
+
+        BookmarksService.updateBookmark(
+            req.app.get('db'),
+            req.params.bookmark_id,
+            bookmarkToUpdate
+        )
+        .then(numRowsAffected=>{
+            res.status(204).end()
+        })
+        .catch(next)
+    })
 
 module.exports = bookmarksRouter

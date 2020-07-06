@@ -31,6 +31,11 @@ const BookmarksService = {
             .from('uplift_bookmarks')
             .where({id})
             .delete()
+    },
+    updateBookmark(knex, id, bookmarkFields){
+        return knex('uplift_bookmarks')
+        .where({id})
+        .update(bookmarkFields)
     }
 }
 

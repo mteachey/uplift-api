@@ -27,7 +27,7 @@ const PostsService = {
     getBookmarkPosts(knex, userbookmark){
         return knex
         .from('uplift_posts')
-        .select('uplift_posts.id as post_id','post_type', 'uplift_bookmarks.user_id as user_id', 'uplift_posts.content as content','uplift_bookmarks.content as bookmark_content','title','by','link','start_date','uplift_posts.date_created')
+        .select('uplift_posts.id as post_id','post_type', 'uplift_bookmarks.user_id as user_id', 'uplift_posts.content as content','uplift_bookmarks.content as bookmark_content','title','by','link','start_date','uplift_posts.date_created','uplift_bookmarks.id as bookmark_id')
       //  .join('uplift_users','uplift_bookmarks.user_id', 'uplift_users.id')
         .join('uplift_bookmarks','uplift_bookmarks.post_id', 'uplift_posts.id')
         .where('uplift_bookmarks.user_id',userbookmark)

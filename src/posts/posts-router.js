@@ -16,7 +16,9 @@ const serializedPost = post =>({
     content:xss(post.content),
     post_type:post.post_type,
     username:xss(post.username),
-    date_created:post.date_created
+    date_created:post.date_created,
+    bookmark_content:xss(post.bookmark_content),
+    bookmark_id:post.bookmark_id
 })
 
 postsRouter
