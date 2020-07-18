@@ -1,7 +1,7 @@
 //import multer from ‘multer’;
 const multer = require('multer');
 
-//const DatauriParser = require('datauri/parser');
+const DatauriParser = require('datauri/parser');
 //const Datauri = require('datauri');
 
 //const path = require('path');
@@ -12,7 +12,7 @@ const storage = multer.memoryStorage();
 //set the storage option .single('image') specifis the field name multer should go to when it's looking for the file
 const multerUploads = multer({ storage }).single('image');
 
-//const buffer = new DatauriParser();
+const parser = new DatauriParser();
 
 //const dUri = new Datauri();
 /**
@@ -23,9 +23,12 @@ const multerUploads = multer({ storage }).single('image');
 //const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
 
 const dataUri = req => {
+    const buffer = req.file.buffer;
+    const file = parser.format('.png', buffer);
+    //console.log(file)
     console.log(`this is the req.file.originalname`)
     console.log(req.file.originalname);
-    return //req.file.originalname
+    return file.content
 }
 
 //module.exports = {multerUploads, dataUri};

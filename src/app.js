@@ -58,15 +58,15 @@ app.use('/api/upload', cloudinaryConfig);
 //app.get('/api/upload', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
 
 app.post('/api/upload', multerUploads, (req, res) => {
-    res.send('That worked')
+    //res.send('That worked')
     if(req.file) {
         //const file = dataUri(req).content;
         const file = dataUri(req);
-        console.log('this is the rs=es.file object')
+        console.log('this is the res.file object')
         console.log(req.file)
-        console.log(`this is the file from the app`)
+       // console.log(`this is the file from the app`)
        // console.log(file);
-      /* return uploader.upload(file).then((result) => {
+        return uploader.upload(file).then((result) => {
             const image = result.url;
             return res.status(200).json({
                 messge: 'Your image has been uploded successfully to cloudinary',
@@ -80,7 +80,7 @@ app.post('/api/upload', multerUploads, (req, res) => {
                 data: {
                 err
                 }
-        }))*/
+        }))
     }//end of if 
 });
 
