@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const logger = require('./logger')
+const multerUploads = require('./middleware/multer.js')
 const { NODE_ENV } = require('./config')
 const usersRouter = require('./users/users-router.js')
 const postsRouter = require('./posts/posts-router.js')
@@ -41,6 +42,16 @@ app.use('/api/bookmarks',bookmarksRouter)
 app.get('/',(req,res)=>{
     res.send('Hello, world!')
 })
+
+app.post('/api/upload', multerUploads, (req, res) => {
+    const body = req.body
+    console.log(req.body)
+    console.log('req.file : ', req.file);
+    res.status(201)
+    //res.send(`req.body :' ${body}`)
+    //console.log('req.body :', req.body);
+    
+    });
 
 app.use(function errorHandler(error, req, res, next){
     let response
