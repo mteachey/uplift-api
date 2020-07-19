@@ -18,7 +18,8 @@ const serializedPost = post =>({
     username:xss(post.username),
     date_created:post.date_created,
     bookmark_content:xss(post.bookmark_content),
-    bookmark_id:post.bookmark_id
+    bookmark_id:post.bookmark_id,
+    image_path:xss(post.image_path)
 })
 
 postsRouter
@@ -84,11 +85,11 @@ postsRouter
         }
     })
     .post(jsonParser, (req, res, next)=>{
-        const { user_id, title, link, start_date,by,content, post_type } = req.body
-        const newPost = { user_id, title, link, start_date,by,content, post_type }
+        const { user_id, title, link, start_date,by,content, post_type, image_path } = req.body
+        const newPost = { user_id, title, link, start_date,by,content, post_type, image_path }
 
         const validPostTypes = [`reflection`, `music`,`event`,`book`,`podcast`]
-
+    
             if(!user_id){
                 return res.status(400).json({
                     error: { message : `Missing user_id in request body` }
@@ -106,30 +107,33 @@ postsRouter
                 })
             }
 
-            if(post_type==='event'&&(!title || !content || !link)){
-                return res.status(400).json({
-                    error: { message : `Event post type must be include a title, content and link` }
-                })
-            }
-            if(post_type==='music'&&(!title || !by || !link)){
-                return res.status(400).json({
-                    error: { message : `Music post type must be include a title, by and link` }
-                })
-            }
-            if(post_type==='podcast'&&(!title || !content || !link)){
-                return res.status(400).json({
-                    error: { message : `Podcast post type must be include a title, content and link` }
-                })
-            }
-            if(post_type==='book'&&(!title || !by )){
-                return res.status(400).json({
-                    error: { message : `Book post type must be include a title and by` }
-                })
-            }
-            if(post_type==='reflection' && !content){
-                return res.status(400).json({
-                    error: { message : `Reflection post type must be include a content` }
-                })
+            //check for required content depending on post_type
+            if(!image_path){
+                if(post_type==='event'&&(!title || !content || !link)){
+                    return res.status(400).json({
+                        error: { message : `Event post type must be include a title, content and link` }
+                    })
+                }
+                if(post_type==='music'&&(!title || !by || !link)){
+                    return res.status(400).json({
+                        error: { message : `Music post type must be include a title, by and link` }
+                    })
+                }
+                if(post_type==='podcast'&&(!title || !content || !link)){
+                    return res.status(400).json({
+                        error: { message : `Podcast post type must be include a title, content and link` }
+                    })
+                }
+                if(post_type==='book'&&(!title || !by )){
+                    return res.status(400).json({
+                        error: { message : `Book post type must be include a title and by` }
+                    })
+                }
+                if(post_type==='reflection' && !content){
+                    return res.status(400).json({
+                        error: { message : `Reflection post type must be include a content` }
+                    })
+                }
             }
 
             PostsService.insertNewPost(
