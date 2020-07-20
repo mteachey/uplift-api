@@ -11,9 +11,10 @@ CREATE TABLE uplift_posts(
     user_id INTEGER REFERENCES uplift_users(id) ON DELETE CASCADE NOT NULL,
     title TEXT,
     link TEXT,
-    event_dates TEXT,
+    start_date TIMESTAMPTZ,
     by TEXT,
     content TEXT,
     post_type post_type_category NOT NULL,
-    date_created TIMESTAMPTZ NOT NULL DEFAULT now()
+    date_created TIMESTAMPTZ NOT NULL DEFAULT now(),
+    image_path TEXT
 )
