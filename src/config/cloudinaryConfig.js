@@ -14,4 +14,3 @@ const cloudinaryConfig = (req, res, next) => {
 }
 
 module.exports = { cloudinaryConfig, uploader }
-//export { cloudinaryConfig, uploader };

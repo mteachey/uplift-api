@@ -14,7 +14,7 @@ const bookmarksRouter = require('./bookmarks/bookmarks-router.js')
 const {resolve} = require('path');
 const {uploader, cloudinaryConfig} = require('./config/cloudinaryConfig.js')
 const {multerUploads, dataUri} = require('./middleware/multer.js');
-//const multerUploads = require('./middleware/multer.js');
+
 const { urlencoded, json } = require('body-parser');
 
 const app = express()
@@ -55,17 +55,12 @@ app.get('/',(req,res)=>{
 
 app.use('/api/upload', cloudinaryConfig);
 
-//app.get('/api/upload', (req, res) => res.sendFile(resolve(__dirname, '../public/index.html')));
-
 app.post('/api/upload', multerUploads, (req, res) => {
     //res.send('That worked')
     if(req.file) {
-        //const file = dataUri(req).content;
+        
         const file = dataUri(req);
-        console.log('this is the res.file object')
-        console.log(req.file)
-       // console.log(`this is the file from the app`)
-       // console.log(file);
+
         return uploader.upload(file).then((result) => {
             const image = result.url;
             return res.status(200).json({
@@ -90,7 +85,6 @@ app.use(function errorHandler(error, req, res, next){
         response = {error :{message:'server error'}}
     }
     else{
-        console.error(error)
         response = { message: error.message, error}
     }
     res.status(500).json(response)

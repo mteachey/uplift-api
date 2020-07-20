@@ -48,7 +48,7 @@ postsRouter
                         error: {message: `Posts with that username or id do not exsit`}
                     })
                 }
-                console.log(posts);
+                
                 res.json(posts.map(serializedPost)) 
             })
             .catch(next)
@@ -181,7 +181,5 @@ postsRouter
         .catch(next)
     })
     
-
-
 
 module.exports = postsRouter

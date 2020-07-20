@@ -11,8 +11,8 @@ const PostsService = {
         console.log(userId)
         return knex
         .from('uplift_posts')
-        .select('uplift_posts.id as post_id','post_type', 'content','title','by','link','uplift_posts.date_created','user_id', 'uplift_users.username')
-        .join('uplift_users','uplift_posts.user_id', 'uplift_users.id', 'uplift_posts.image_path')
+        .select('uplift_posts.id as post_id','post_type', 'content','title','by','link','uplift_posts.date_created','user_id', 'uplift_users.username','uplift_posts.image_path')
+        .join('uplift_users','uplift_posts.user_id', 'uplift_users.id' )
         .where('uplift_posts.user_id',userId)
     },
     getConnectionPosts(knex, userconnection){
@@ -28,7 +28,6 @@ const PostsService = {
         return knex
         .from('uplift_posts')
         .select('uplift_posts.id as post_id','post_type', 'uplift_bookmarks.user_id as user_id', 'uplift_posts.content as content','uplift_bookmarks.content as bookmark_content','title','by','link','start_date','uplift_posts.date_created','uplift_bookmarks.id as bookmark_id','uplift_posts.image_path')
-      //  .join('uplift_users','uplift_bookmarks.user_id', 'uplift_users.id')
         .join('uplift_bookmarks','uplift_bookmarks.post_id', 'uplift_posts.id')
         .where('uplift_bookmarks.user_id',userbookmark)
        
