@@ -11,7 +11,6 @@ const serializedPost = post =>({
     user_id:post.user_id,
     title:xss(post.title),
     link:xss(post.link),
-    start_date:post.start_date,
     by:xss(post.by),
     content:xss(post.content),
     post_type:post.post_type,
@@ -85,8 +84,8 @@ postsRouter
         }
     })
     .post(jsonParser, (req, res, next)=>{
-        const { user_id, title, link, start_date,by,content, post_type, image_path } = req.body
-        const newPost = { user_id, title, link, start_date,by,content, post_type, image_path }
+        const { user_id, title, link, by,content, post_type, image_path } = req.body
+        const newPost = { user_id, title, link,by,content, post_type, image_path }
 
         const validPostTypes = [`reflection`, `music`,`event`,`book`,`podcast`]
     
