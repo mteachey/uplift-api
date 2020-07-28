@@ -51,9 +51,10 @@ app.post('/api/upload', multerUploads, (req, res) => {
         const file = dataUri(req);
 
         return uploader.upload(file).then((result) => {
-            const image = result.url;
+            //cloudinary is returning paths with http and not https, this is temp fix 
+            const image = result.url.replace("http", "https");
             return res.status(200).json({
-                messge: 'Your image has been uploded successfully to cloudinary',
+                message: 'Your image has been uploded successfully to cloudinary',
                 data: {
                 image
                 }

@@ -86,6 +86,7 @@ postsRouter
     .post(jsonParser, (req, res, next)=>{
         const { user_id, title, link, by,content, post_type, image_path } = req.body
         const newPost = { user_id, title, link,by,content, post_type, image_path }
+        console.log(image_path.replace("http", "https"));
 
         const validPostTypes = [`reflection`, `music`,`event`,`book`,`podcast`]
     
