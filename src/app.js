@@ -32,7 +32,7 @@ app.use(json())
 
 
 //validate API_Token
-/*app.use(function validateBearerToken(req, res, next){
+app.use(function validateBearerToken(req, res, next){
     const apiToken = process.env.API_TOKEN
     const authToken = req.get('Authorization')
 
@@ -41,7 +41,7 @@ app.use(json())
         return res.status(401).json({ error: 'Unauthorized request'})
     }
     next()
-})*/
+})
 
 app.use('/api/users',usersRouter)
 app.use('/api/posts',postsRouter)

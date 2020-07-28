@@ -28,6 +28,9 @@ usersRouter
         const { fullname, username, password } = req.body
         const newUser = { fullname, username, password }
 
+        //ensuring that usernames are always posted as lower case 
+        newUser.username = newUser.username.toLowerCase();
+        
         for(const [key, value] of Object.entries(newUser)){
             if(value==null){
                 return res.status(400).json({
@@ -35,6 +38,9 @@ usersRouter
                 })
             }
         }
+        
+
+
         UsersService.insertNewUser(
             req.app.get('db'),
             newUser
