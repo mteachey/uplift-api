@@ -28,7 +28,7 @@ describe(`Uplift endpoints`,()=>{
             it(`responds with 200 and an empty list`,()=>{
                 return supertest(app)
                 .get('/api/bookmarks')
-               // .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(200,[])
             })
         })//end of context no bookmarks
@@ -57,7 +57,7 @@ describe(`Uplift endpoints`,()=>{
             it(`responds with all bookmarks`,()=>{
                 return supertest(app)
                 .get('/api/bookmarks')
-               // .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(200)
                 .expect(res=>{
                     expect(res.body.id).to.eql(testBookmarks.id)
@@ -69,6 +69,7 @@ describe(`Uplift endpoints`,()=>{
           it(`responds with error message if request for userid not there`,()=>{
                 return supertest(app)
                 .get('/api/bookmarks?userid=1235')
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(404, {error: {message: `That user has no bookmarks`}})
             })
         })//end context bookmarks in db
@@ -98,6 +99,7 @@ describe(`Uplift endpoints`,()=>{
 
             return supertest(app)
                 .post('/api/bookmarks')
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .send(newBookmark)
                 .expect(res=>{
                     expect(res.body.post_id).to.eql(newBookmark.post_id)
@@ -118,6 +120,7 @@ describe(`Uplift endpoints`,()=>{
 
                 return supertest(app)
                     .post(`/api/bookmarks`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .send(newBookmark)
                     .expect(400, {
                         error: { message: `Missing user_id or post_id in request body` }
@@ -134,6 +137,7 @@ describe(`Uplift endpoints`,()=>{
                 const bookmarkId = 123456
                   return supertest(app)
                   .delete(`/api/bookmarks/${bookmarkId}`)
+                  .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                   .expect(404, { error: {message: `Bookmark doesn't exist` } })
               })//end it 404
         })//end of context no bookmark in db
@@ -166,6 +170,7 @@ describe(`Uplift endpoints`,()=>{
 
                 return supertest(app)
                     .delete(`/api/bookmarks/${idToRemove}`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(204)
                     .then(res =>
                         supertest(app)

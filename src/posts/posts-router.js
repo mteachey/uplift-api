@@ -21,6 +21,18 @@ const serializedPost = post =>({
     image_path:xss(post.image_path)
 })
 
+const serializedPostForPost = post =>({
+    id:post.id,
+    user_id:post.user_id,
+    title:xss(post.title),
+    link:xss(post.link),
+    by:xss(post.by),
+    content:xss(post.content),
+    post_type:post.post_type,
+    date_created:post.date_created,
+    image_path:xss(post.image_path)
+})
+
 postsRouter
     .route('/')
     .get((req, res, next)=>{
@@ -144,7 +156,7 @@ postsRouter
                 res
                     .status(201)
                     .location(path.posix.join(req.originalUrl + `/${post.id}`))
-                    .json(serializedPost(post))
+                    .json(serializedPostForPost(post))
             })
             .catch(next) 
     })

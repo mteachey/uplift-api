@@ -5,7 +5,7 @@ require('dotenv').config()
 const { makeUsersArray } = require('./users.fixtures.js');
 const { makePostsArray} = require('./posts.fixtures.js');
 
-describe.only(`Uplift endpoints`,()=>{
+describe(`Uplift endpoints`,()=>{
     let db 
 
     before('make knex instance',()=>{
@@ -109,8 +109,8 @@ describe.only(`Uplift endpoints`,()=>{
                     expect(res.body.content).to.eql(newPost.content)
                     expect(res.body.post_type).to.eql(newPost.post_type)
                     expect(res.body.user_id).to.eql(newPost.user_id)
-                    expect(res.body).to.have.property('post_id')
-                   // expect(res.headers.location).to.eql(`/api/posts/${res.body.id}`)
+                    expect(res.body).to.have.property('id')
+                    expect(res.headers.location).to.eql(`/api/posts/${res.body.id}`)
                 })
         })//end it create connection
 

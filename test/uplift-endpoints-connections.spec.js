@@ -27,7 +27,7 @@ describe(`Uplift endpoints`,()=>{
             it(`responds with 200 and an empty list`,()=>{
                 return supertest(app)
                 .get('/api/connections')
-               // .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(200,[])
             })
         })//end of context no connections
@@ -50,7 +50,7 @@ describe(`Uplift endpoints`,()=>{
             it(`responds with all connections`,()=>{
                 return supertest(app)
                 .get('/api/connections')
-               // .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(200)
                 .expect(res=>{
                     expect(res.body.id).to.eql(testConnections.id)
@@ -62,6 +62,7 @@ describe(`Uplift endpoints`,()=>{
           it(`responds with error message if request for userid not there`,()=>{
                 return supertest(app)
                 .get('/api/connections?userid=1235')
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(404, {error: {message: `That user has no connections`}})
             })
         })//end context connections in db
@@ -84,6 +85,7 @@ describe(`Uplift endpoints`,()=>{
 
             return supertest(app)
                 .post('/api/connections')
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .send(newConnection)
                 .expect(res=>{
                     expect(res.body.followee_id).to.eql(newConnection.followee_id)
@@ -104,6 +106,7 @@ describe(`Uplift endpoints`,()=>{
 
                 return supertest(app)
                     .post(`/api/connections`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .send(newConnection)
                     .expect(400, {
                         error: { message: `Missing user_id or followee_id in request body` }
@@ -120,6 +123,7 @@ describe(`Uplift endpoints`,()=>{
                 const connectionId = 123456
                   return supertest(app)
                   .delete(`/api/connections/${connectionId}`)
+                  .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                   .expect(404, { error: {message: `Connection doesn't exist` } })
               })
         })//end of context no connection in db
@@ -147,6 +151,7 @@ describe(`Uplift endpoints`,()=>{
 
                 return supertest(app)
                     .delete(`/api/connections/${idToRemove}`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(204)
                     .then(res =>
                         supertest(app)
