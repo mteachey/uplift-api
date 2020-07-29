@@ -45,7 +45,6 @@ app.use(function validateBearerToken(req, res, next){
 })
 
 app.post('/api/upload', multerUploads, (req, res) => {
-    //res.send('That worked')
     if(req.file) {
         
         const file = dataUri(req);

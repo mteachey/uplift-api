@@ -29,7 +29,8 @@ usersRouter
         const newUser = { fullname, username, password }
 
         //ensuring that usernames are always posted as lower case 
-        newUser.username = newUser.username.toLowerCase();
+        if(username)
+         {newUser.username = newUser.username.toLowerCase();}
         
         for(const [key, value] of Object.entries(newUser)){
             if(value==null){
